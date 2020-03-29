@@ -1,0 +1,40 @@
+{% load static %}
+{% if total_page > 1 %}
+    <nav aria-label="...">
+        {% if list_post.has_previous %}
+            <a title="" href="{% url 'blog:detail_tag' detail_tag.slug list_post.previous_page_number %}#posts" class="btn-small-white pagination-back">Bài trước</a>
+        {% endif %}
+        <ul class="pagination">
+            {% if list_post.number|add:"-3" > 0 and list_post.number != 1 %}
+                <li class="page-item"><a class="page-link" href="{% url 'blog:detail_tag' detail_tag.slug 1 %}">1</a></li>
+            {% endif %}
+            {% if list_post.number|add:"-4" > 0 %}
+                <li class="page-item page-item-more"><a class="page-link" href="#">...</a></li>
+            {% endif %}
+            {% if list_post.number|add:"-2" > 0 %}
+                <li class="page-item"><a class="page-link" href="{% url 'blog:detail_tag' detail_tag.slug list_post.number|add:"-2" %}#posts">{{list_post.number|add:"-2"}}</a></li>
+            {% endif %}
+            {% if list_post.has_previous %}
+                <li class="page-item"><a class="page-link" href="{% url 'blog:detail_tag' detail_tag.slug list_post.previous_page_number %}#posts">{{list_post.previous_page_number}}</a></li>
+            {% endif %}
+            <li class="page-item active">
+                <a class="page-link" href="#"> {{list_post.number}} <span class="sr-only">(current)</span></a>
+            </li>
+            {% if list_post.has_next %}
+                <li class="page-item"><a class="page-link" href="{% url 'blog:detail_tag' detail_tag.slug list_post.next_page_number %}#posts">{{list_post.next_page_number}}</a></li>
+            {% endif %}
+            {% if list_post.number|add:"2" <= total_page %}
+                <li class="page-item"><a class="page-link" href="{% url 'blog:detail_tag' detail_tag.slug list_post.number|add:"2" %}#posts">{{list_post.number|add:"2"}}</a></li>
+            {% endif %}
+            {% if list_post.number|add:"4" <= total_page %}
+                <li class="page-item page-item-more"><a class="page-link" href="#">...</a></li>
+            {% endif %}
+            {% if list_post.number|add:"3" <= total_page and list_post.number != total_page %}
+                <li class="page-item"><a class="page-link" href="{% url 'blog:detail_tag' detail_tag.slug total_page %}#posts">{{total_page}}</a></li>
+            {% endif %}
+        </ul>
+        {% if list_post.has_next %}
+            <a title="" href="{% url 'blog:detail_tag' detail_tag.slug list_post.next_page_number %}#posts" class="btn-small-white pagination-next">Bài sau</a>
+        {% endif %}
+    </nav>
+{% endif %}

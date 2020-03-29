@@ -1,0 +1,197 @@
+{% extends 'cores/base.html' %}
+{% load static %}
+{% load filters %}
+{% block titleblock %}
+{{detail_post.title}}
+{% endblock %}
+{% block contentblock %}
+<main>
+<!-- Post detail -->
+    <section class="articles articles-blog-post">
+        <article class="articles-blog-post">
+            <div class="container">
+                <div class="row">
+                    <!-- Content post -->
+                    <div class="col-lg-10 col-xs-12">
+                        <div class="articles-header">
+                            <time datetime="{{detail_post.updated_at}}">{{detail_post.updated_at|timesince}}</time>
+                            <span class="articles-header-tag-blue">Mới</span>
+                            <span class="articles-header-category">
+                                {% for tag in detail_post.tag.all %}
+                                    <a href="{% url 'blog:detail_tag' tag.slug %}" class="blue" title="{{tag.name}}">#{{tag.name}}</a>
+                                {% endfor %}
+                            </span>
+                        </div>
+                        <div class="articles-content">
+                            <h1 class="articles-content-blog-post-title">
+                                <a href="#post" title="{{detail_post.title}}">{{detail_post.title}}</a>
+                            </h1>
+                            {{detail_post.content|markdowntext}}
+                        </div>
+                    </div>
+                    <!-- Share post -->
+                    <div class="col-lg-2 col-xs-12">
+                        <div class="articles-blog-post-share">
+                            <h3>Chia sẻ</h3>
+                            <div>
+                                <ul>
+                                    {% with share_title=detail_post.title|urlencode share_url=request.build_absolute_uri|urlencode %}
+                                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{share_url}}&quote={{share_title}}" target="_blank" title="Share by Facebook"><i class="fab fa-facebook-f"></i></i> Facebook</a></li>
+                                    <li><a href="https://twitter.com/share?url={{share_url}}&text={{share_title}}" target="_blank" title="Share by Twitter"><i class="fab fa-twitter"></i> Twitter</a></li>
+                                    <li><a href="mailto:?subject={{share_title}}&body={{share_title}} {{share_url}}" title="Share by Email"><i class="far fa-at"></i> Email</a></li>
+                                    {% endwith %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end Share post -->
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <div class="articles-info">
+        <section class="articles-info-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-xs-12">
+                        <div class="articles-footer">
+                            <ul class="articles-footer-info">
+                                <li><a title="" href="#comments" class="light-link"><i class="far fa-comment-alt"></i> {{detail_post.total_comment}} Thảo luận</a></li>
+                                <li><a title="" href="#favorites" class="light-link"><i class="far fa-heart"></i> {{detail_post.heart}} Yêu thích</a></li>
+                            </ul>
+                        </div>
+                        <div class="articles-author">
+                            <img src="{% get_media_prefix %}{{detail_post.user.avatar}}" alt="{{detail_post.user.first_name}} {{detail_post.user.last_name}}">
+                            <div class="articles-author-right">
+                                <h4>{{detail_post.user.first_name}} {{detail_post.user.last_name}} </h4>
+                                <p><i class="far fa-at"></i>{{detail_post.user}}</p>
+                                <div class="social">
+                                    <a href="#tadevx" title="Facebook"><i class="fab fa-facebook"></i></a>
+                                    <a href="#tadevx" title="Github"><i class="fab fa-github"></i></a>
+                                    <a href="#tadevx" title="Email"><i class="fas fa-at"></i></a>
+                                </div>
+                                <p>{{detail_post.user.about}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Relate posts -->
+        <section class="articles-info-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-xs-12">
+                        <h1 class="articles-info-section-title">Bài viết cùng chủ đề</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="banners">
+                <div class="container">
+                    <div class="row">
+                    {% if relate_post|length %}
+                        {% for post in relate_post %}
+                            <div class="col-lg-4 col-md-6 col-xs-12">
+                                <div class="banner-wrapper">
+                                    <a href="{% url 'blog:detail_post' post.slug %}" title="{{post.title}}">
+                                        <div class="banner-wrapper-content">
+                                            <h1 class="h2">{{post.title|truncatewords:10}}</h1>
+                                            {% if forloop.counter0|divisibleby:"3" %}
+                                                {% for tag in post.tag.all %}
+                                                    <span class="category-tag category-tag-blue">{{tag.name}}</span>
+                                                {% endfor %}
+                                            {% elif forloop.counter0|add:"-1"|divisibleby:"3" %}
+                                                {% for tag in post.tag.all %}
+                                                    <span class="category-tag category-tag-green">{{tag.name}}</span>
+                                                {% endfor %}
+                                            {% else %}
+                                                {% for tag in post.tag.all %}
+                                                    <span class="category-tag category-tag-yellow">{{tag.name}}</span>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <time datetime="{{post.created_at}}">{{post.created_at|timesince}}</time>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Code for no posts -->
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end Relate posts -->
+        <section class="articles-info-section">
+            <!-- Comment title -->
+            <div class="container" id="comments">
+                <div class="row">
+                    <div class="col-lg-10 col-xs-12">
+                        <h1 class="articles-info-section-title">Thảo luận về bài viết</h1>
+                    </div>
+                </div>
+            </div>
+            <!-- end Comment title -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-xs-12">
+                        <div class="comments">
+                            <!-- Write comment -->
+                            <div class="light-link comment button-comment">
+                                <span class="form-error">{{ form.non_field_errors }}</span>
+                                <form action="{% url 'blog:detail_post' detail_post.slug %}#comments" method="post">
+                                    {% csrf_token %}
+                                    {% if not user.id %}
+                                        {{comment_form.name|addattr:'class:col-xs-12 form-control, placeholder:Tên bạn...'}}
+                                    {% endif %}
+                                    {{comment_form.content|rmattr:'rows'|rmattr:'cols'|addattr:'class:col-xs-12 form-control, placeholder:Cảm nhận về bài viết...'}}
+                                    <button type="submit" name="comment" class="btn btn-small">Gửi</button>
+                                </form>
+                            </div>
+                            <!-- Comments for post -->
+                            <ul>
+                                {% if post_comment|length %}
+                                    {% for comment in post_comment %}
+                                <li class="comment">
+                                    {% if comment.user.avatar %}
+                                    <img src="{% get_media_prefix %}{{comment.user.avatar}}" alt="{{comment.user.first_name}} {{comment.user.last_name}}">
+                                    {% else %}
+                                    <img src="{% static 'blog/img/profile.png' %}" alt="{{comment.user.first_name}} {{comment.user.last_name}}">
+                                    {% endif %}
+                                    <div class="comment-content">
+                                        {% if comment.user.first_name and comment.user.last_name %}
+                                            <h3>{{comment.user.first_name}} {{comment.user.last_name}}</h3>
+                                        {% else %}
+                                            <h3>{{comment.name}}</h3>
+                                        {% endif %}
+                                        <time datetime="{{comment.create_at}}">{{comment.create_at|timesince}}</time>
+                                        <p>{{comment.content|markdowntext}}</p>
+                                        <div class="comment-content-footer">
+                                            <button class="btn btn-small"><a href="#" title="Trả lời {{comment.user}}">Trả lời</a></button>
+                                            <a title="Yêu thích" href="#" class="light-link comment-content-footer-icon"><i class="far fa-heart"></i> {{comment.heart}}</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <!-- Code for no comment -->
+                                {% endif %}
+                                {% if post_comment|length > 5 %}
+                                    <li>
+                                        <a title="" href="#" class="light-link comment button-comment-center">
+                                            <span class="button-comment-text">Xem thêm <i class="far fa-chevron-down"></i></span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                            <!-- end Comments for post -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

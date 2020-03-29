@@ -1,0 +1,119 @@
+{% load static %}
+<footer>
+    <div class="container">
+        <div class="row">
+            <!-- Last comment -->
+            <div class="col-md-4 col-xs-12">
+                <div class="footer-section">
+                    <h3 class="footer-section-title">Thảo luận mới nhất</h3>
+                    <ul class="footer-section-content">
+                        {% if list_last_comment|length %}
+                            {% for comment in list_last_comment %}
+                                {% if forloop.counter0|divisibleby:2 %}
+                                <li class="footer-section-content-response">
+                                    {% if comment.user.avatar %}
+                                        <img src="{% get_media_prefix %}{{comment.user.avatar}}" alt="Ảnh đại diện">
+                                    {% else %}
+                                        <img src="{% static 'blog/img/profile.png' %}" alt="Ảnh đại diện">
+                                    {% endif %}
+                                    <div class="footer-section-content-response-wrapper">
+                                        <h4>
+                                            {% if comment.user.first_name and comment.user.last_name %}
+                                                <span class="response-author">{{comment.user.first_name}} {{comment.user.last_name}}</span>
+                                            {% else %}
+                                                <span class="response-author">{{comment.name}}</span>
+                                            {% endif %}
+                                            in
+                                            <a href="{% url 'blog:detail_post' comment.post.slug %}#comments" class="response-subject light-link" title="{{comment.post}}">{{comment.post}}</a>
+                                        </h4>
+                                        <p class="font-primary">{{comment.content|truncatewords:20}}</p>
+                                        <time datetime="{{comment.created_at}}">{{comment.created_at|timesince}}</time>
+                                    </div>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <!-- Code for no comment -->
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xs-12">
+                <div class="footer-section">
+                    <h3 class="footer-section-title">&nbsp;</h3>
+                    <ul class="footer-section-content">
+                        {% if list_last_comment|length %}
+                            {% for comment in list_last_comment %}
+                                {% if not forloop.counter0|divisibleby:2 %}
+                                <li class="footer-section-content-response">
+                                    {% if comment.user.avatar %}
+                                        <img src="{% get_media_prefix %}{{comment.user.avatar}}" alt="Ảnh đại diện">
+                                    {% else %}
+                                        <img src="{% static 'blog/img/profile.png' %}" alt="Ảnh đại diện">
+                                    {% endif %}
+                                    <div class="footer-section-content-response-wrapper">
+                                        <h4>
+                                            {% if comment.user.first_name and comment.user.last_name %}
+                                                <span class="response-author">{{comment.user.first_name}} {{comment.user.last_name}}</span>
+                                            {% else %}
+                                                <span class="response-author">{{comment.name}}</span>
+                                            {% endif %}
+                                            in
+                                            <a href="{% url 'blog:detail_post' comment.post.slug %}#comments" class="response-subject light-link" title="{{comment.post}}">{{comment.post}}</a>
+                                        </h4>
+                                        <p class="font-primary">{{comment.content|truncatewords:20}}</p>
+                                        <time datetime="{{comment.created_at}}">{{comment.created_at|timesince}}</time>
+                                    </div>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <!-- Code for no comment -->
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <!-- About -->
+            <div class="col-md-4 col-xs-12">
+                <div class="footer-section border-bottom">
+                    <img src="{% static 'blog/img/logo-grey.png' %}" alt="" class="footer-section-title-img">
+                    <div class="footer-section-content">
+                        <p class="font-primary footer-section-content-about">
+                            <span class="black">TAStark</span> là trang web chia sẻ những kiến thức, kinh nghiệm về lập trình và cuộc sống của lập trình viên.
+                        </p>
+                    </div>
+                </div>
+            <!-- Newsletter -->
+                <div class="footer-section">
+                    <h3 class="footer-section-title footer-section-newsletter">Đăng ký trang</h3>
+                    <div class="footer-section-content">
+                        <p class="font-primary ">Thông báo cho tôi khi có bài viết, khóa học mới:</p>
+                        <form action="#subscribe" method="post">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" placeholder="Nhập vào mail của bạn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end Newsletter -->
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div class="copyright">
+                    <ul>
+                        <li><a href="mailto:tadevx@gmail.com" title="Email"><i class="fas fa-at"></i></a></li>
+                        <li><a href="https://github.com/tadevx" title="Github"><i class="fab fa-github"></i></a></li>
+                        <li><a href="https://www.facebook.com/tadevx" title="Facebook"><i class="fab fa-facebook"></i></a></li>
+                    </ul>
+                    <p class="font-primary">© Được thiết kế bởi <a href="#copyright" title="TADEVX" class="black">TADEVX</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end Copyright -->
+</footer>

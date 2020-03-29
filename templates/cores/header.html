@@ -1,0 +1,40 @@
+{% load static %}
+<header class="navbar-fixed-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="header-top">
+                    <div class="header-top-logo">
+                        <a href="{% url 'cores:homepage' %}" title="TAStark">
+                            <img src="{% static 'blog/img/logo.png' %}" alt="TAStark logo">
+                        </a>
+                    </div>
+                    <div class="header-top-text">
+                        <p><span class="font-italic">“Never stop learning new things!”</span>
+                        </p>
+                    </div>
+                    <nav class="header-top-nav">
+                        <ul>
+                            <li class="header-top-nav-search">
+                                <a href="#search" class="light-link" title="Tìm bài viết"><i class="fal fa-search"></i></a>
+                                <form action="{% url 'blog:search_post' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control" name="search" placeholder="Tìm bài viết, chủ đề,...">
+                                    <button type="submit"><i class="fal fa-search"></i></button>
+                                </form>
+                            </li>
+                            <li><a href="#menu" class="light-link" title="Menu">
+                                <div id="menu-animate-icon" class="header-top-nav-menu-icon">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'cores/navbar.html' %}
+</header>

@@ -1,0 +1,62 @@
+{% load static %}
+<!-- Author-->
+<aside class="author">
+    <img src="{% get_media_prefix %}users/1/avatar.png" alt="Avatar">
+    <h2>Hoàng Trung Anh</h2>
+    <span class="author-info">Software Developer</span>
+    <span class="author-info">Công ty FPT Software</span>
+    <div class="social">
+        <a href="https://www.facebook.com/tadevx" title="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="https://github.com/tadevx" title="Github"><i class="fab fa-github"></i></a>
+        <a href="mailto:tadevx@gmail.com" title="Email"><i class="fas fa-at"></i></a>
+    </div>
+    <ul class="author-nav">
+        <li><a href="{% get_media_prefix %}cores/cv-hoang-trung-anh.pdf" target="_blank" title="My CV"><i class="fal fa-book-open"></i></i> Xem CV của tôi</a></li>
+        <li><a href="{% url 'cores:contact' %}" title="Write message"><i class="fal fa-paper-plane"></i> Gửi lời nhắn</a></li>
+    </ul>
+</aside>
+<!-- Highlights tags -->
+<aside class="categories">
+    <h2 class="aside-title">Chủ đề nổi bật</h2>
+    {% if list_highlights_tag|length %}
+        {% for tag in list_highlights_tag %}
+            <ul>
+                {% if forloop.counter0|divisibleby:"4" %}
+                    <li class="nav-elipse-blue">
+                {% elif forloop.counter0|add:"-1"|divisibleby:"4" %}
+                    <li class="nav-elipse-red">
+                {% elif forloop.counter0|add:"-2"|divisibleby:"4" %}
+                    <li class="nav-elipse-yellow">
+                {% else %}
+                    <li class="nav-elipse-green">
+                {% endif %}
+                    <a href="{% url 'blog:detail_tag' tag.slug %}" title="{{tag.name}}">{{tag.name}} ({{tag.total_post}})</a>
+                </li>
+            </ul>
+        {% endfor %}
+    {% else %}
+        <!-- Code for no tags -->
+    {% endif %}
+</aside>
+<!-- My projects -->
+<aside class="last-project">
+    <h2 class="aside-title">Dự án mới</h2>
+    <div class="last-project-one">
+        <h3 class="h4"><a href="">TAStark</a></h3>
+        <time datetime="2020-01-15T23:59:59Z">15 tháng 1, năm 2020</time>
+        <p class="font-primary">TAStark là dự án blog cá nhân được viết bằng framework Django kết hợp với Bootstrap.
+            Blog có giao diện responsive, đơn giản và sáng tạo. Nó dễ dử dụng và cài đặt, thân thiện với người dùng. </p>
+        <a href="#project" title="Watch it" class="btn btn-small">Xem dự án</a>
+    </div>
+</aside>
+<!-- Tags -->
+<aside class="tags">
+    <h2 class="aside-title">Tags</h2>
+    <div class="tags-content">
+        {% for tag in list_tag %}
+        <span class="tag tag-pill tag-default">
+            <a href="{% url 'blog:detail_tag' tag.slug %}" title="{{tag.name}}">{{tag.name}}</a>
+        </span>
+        {% endfor %}
+    </div>
+</aside>

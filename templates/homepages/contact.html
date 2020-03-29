@@ -1,0 +1,63 @@
+{% extends 'cores/base.html' %}
+{% load static %}
+{% block titleblock %}
+Liên hệ với tôi
+{% endblock %}
+{% block contentblock %}
+<main>
+    <div class="container">
+        <div class="row">
+
+            <!-- Details informations -->
+            <div class="col-md-12  col-xs-12">
+                <section class="contact two-column-inside white-box">
+                    <div class="contact-me">
+                        <h2>Liên hệ với tôi</h2>
+                        <ul>
+                            <li>
+                                <i class="fal fa-at"></i>
+                                <div class="contact-me-right">
+                                    <p>tadevx@gmail.com</p>
+                                    <span class="contact-me-right-desc">Địa chỉ Email</span>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fal fa-phone-alt"></i>
+                                <div class="contact-me-right">
+                                    <p>+84 942 480 496</p>
+                                    <span class="contact-me-right-desc">Điện thoại</span>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fal fa-map-marker-alt"></i>
+                                <div class="contact-me-right">
+                                    <p>Duy Tân, Cầu Giấy, Hà Nội</p>
+                                    <span class="contact-me-right-desc">Địa chỉ</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="get-in-touch">
+                        <h2>Gửi lời nhắn</h2>
+                        <p class="font-primary">Nếu bạn có bất kỳ góp ý nào về nội dung của blog. Hãy gửi lời nhắn cho chúng tôi.</p>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input class="col-xs-12 form-control" type="text" placeholder="Tên bạn" name="name">
+                            <input class="col-xs-12 form-control" type="email" placeholder="Địa chỉ email" name="email">
+                            <textarea class="col-xs-12 form-control" rows="6" placeholder="Lời nhắn..." name="question"></textarea>
+                            <button type="submit" class="btn"><i class="fal fa-paper-plane"></i> Gửi</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+<!--            <div class="col-md-12 col-xs-12">-->
+<!--                <section class="white-box contact-map">-->
+<!--                    <div id="contact-map-inside">-->
+<!--                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.047903375301!2d105.78056661531794!3d21.030769185997173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab4ca83a8b6f%3A0x129d06cbf7f8acca!2zMTcgUGjhu5EgRHV5IFTDom4sIEThu4tjaCBW4buNbmcgSOG6rXUsIEPhuqd1IEdp4bqleSwgSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1581616174690!5m2!1svi!2s" width="820" height="420" frameborder="0" style="border:0;" allowfullscreen=""></iframe>-->
+<!--                    </div>-->
+<!--                </section>-->
+<!--            </div>-->
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% load static %}
+ <nav class="header-nav">
+     <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul>
+                    <li class="active"><a href="{% url 'cores:homepage' %}#homepage" title="Trang chủ">Trang chủ</a></li>
+                        <li class="dropdown">
+                            <a href="#tags" class="dropdown-toggle" title="Chủ đề nổi bật">Chủ đề <i class="far fa-chevron-down"></i></a>
+                            {% if list_highlights_tag|length %}
+                            <ul class="dropdown-menu">
+                                {% for tag in list_highlights_tag %}
+                                    {% if forloop.counter0|divisibleby:"4" %}
+                                        <li class="nav-elipse-blue">
+                                    {% elif forloop.counter0|add:"-1"|divisibleby:"4" %}
+                                        <li class="nav-elipse-red">
+                                    {% elif forloop.counter0|add:"-2"|divisibleby:"4" %}
+                                        <li class="nav-elipse-yellow">
+                                    {% else %}
+                                        <li class="nav-elipse-green">
+                                    {% endif %}
+                                        <a href="{% url 'blog:detail_tag' tag.slug %}" title="{{tag.name}}">{{tag.name}} ({{tag.total_post}})</a>
+                                {% endfor %}
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li><a href="#myprojects" title="Dự án của tôi">Dự án của tôi</a></li>
+                    <li><a href="#courses" title="Khóa học">Khóa học</a></li>
+                    <li><a href="{% url 'cores:about' %}" title="Giới thiệu">Giới thiệu</a></li>
+                    <li class="buyproducts-link"><a href="/admin/" title="Đăng nhập"><i class="far fa-user"></i> Đăng nhập</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,69 @@
+{% extends 'cores/base.html' %}
+{% load static %}
+{% block titleblock %}
+{{detail_tag.name}}
+{% endblock %}
+{% block contentblock %}
+<main>
+    <div class="container">
+        <div class="row">
+            <!-- Tag title -->
+            <div class="col-md-12 col-xs-12">
+                <section class="category-title">
+                    <h1>{{detail_tag.name}}</h1>
+                    <span>{{detail_tag.total_post}} Bài viết</span>
+                </section>
+            </div>
+            <!-- Posts -->
+            <div class="col-lg-8 col-xs-12">
+                <section class="articles" id="posts">
+                    {% if list_post|length %}
+                        {% for post in list_post %}
+                            {% if forloop.counter0|divisibleby:"3" %}
+                                <article class="blue-article">
+                            {% elif forloop.counter0|add:"-1"|divisibleby:"3" %}
+                                <article class="red-article">
+                            {% else %}
+                                <article class="yellow-article">
+                            {% endif %}
+<!--                                <img class="articles-preview-img" src="{% get_media_prefix %}{{post.image}}" alt="" title="{{post.title}}">-->
+                                <div class="articles-header">
+                                    <time datetime="{{post.created_at}}">{{post.created_at|timesince}}</time>
+                                    <span class="articles-header-tag-blue">Mới</span>
+                                    <span class="articles-header-category">
+                                        {% for tag in post.tag.all %}
+                                            <a href="{% url 'blog:detail_tag' tag.slug %}" class="blue" title="{{tag.name}}">#{{tag.name}}</a>
+                                        {% endfor %}
+                                    </span>
+                                </div>
+                                <div class="articles-content">
+                                    <h1><a href="{% url 'blog:detail_post' post.slug %}" title="">{{post.title}}</a></h1>
+                                    <p>{{post.description}}</p>
+                                </div>
+                                <div class="articles-footer">
+                                    <ul class="articles-footer-info">
+                                        <li><a href="{% url 'blog:detail_post' post.slug %}#comment" class="light-link" title="Thảo luận"><i class="far fa-comment-alt"></i> {{post.total_comment}} Thảo luận</a></li>
+                                        <li><a href="{% url 'blog:detail_post' post.slug %}#favorite" class="light-link" title="Yêu thích"><i class="far fa-heart"></i> {{post.heart}} Yêu thích</a></li>
+                                    </ul>
+                                    <a href="{% url 'blog:detail_post' post.slug %}" class="btn" title="Đọc tiếp">Đọc tiếp</a>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Code for no posts -->
+                    {% endif %}
+                    <!-- Pagination -->
+                    {% include 'blog/pagination-detail-tag.html' %}
+                    <!-- end Pagination -->
+
+                </section>
+            </div>
+            <!-- Right side -->
+            <div class="aside-blocks col-lg-4 col-xs-12">
+                {% include 'homepages/right-side.html' %}
+            </div>
+            <!-- end Right side -->
+        </div>
+    </div>
+</main>
+{% endblock %}
